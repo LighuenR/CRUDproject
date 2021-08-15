@@ -1,60 +1,70 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+    <v-app-bar app color="deep-purple accent-4" dark>
+      <v-container>
+        <h2>Tareitas</h2>
+      </v-container>
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <v-container>
+        <v-col cols="6">
+          <v-card>
+            <v-card-title>Tasks</v-card-title>
+            <v-card-text>
+              <v-text-field label="Title" v-model="taskTitle"></v-text-field>
+              <v-text-field
+                label="Description"
+                v-model="taskDescription"
+              ></v-text-field>
+              <v-btn dark color="black" block @click="createTask()"
+                >Enviar</v-btn
+              >
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="6">
+          <v-row>
+            <v-col v-for="task in tasks" :key="task._id"
+              ><v-card> 
+                <v-card-title>{{task.title}}</v-card-title>
+                <v-card-text>{{task.description}}</v-card-text>
+                </v-card
+            ></v-col>
+          </v-row>
+        </v-col>
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import { getAllTasks, createTask } from "./services/tasks";
 
 export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      tasks: [],
+      taskTitle: "",
+      taskDescription: "",
+    };
   },
-
-  data: () => ({
-    //
-  }),
+  methods: {
+    async getAllTasks() {
+      this.tasks = await getAllTasks();
+      console.log(this.tasks);
+    },
+    async createTask() {
+      const res = await createTask({
+        title: this.taskTitle,
+        description: this.taskDescription,
+      });
+      console.log(res);
+      this.getAllTasks();
+    },
+  },
+  mounted() {
+    this.getAllTasks();
+  },
 };
 </script>

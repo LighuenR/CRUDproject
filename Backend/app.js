@@ -1,18 +1,20 @@
-const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const express = require('express');
+const app = express();
+app.use(cors());
+app.options('*', cors());
 const bodyParser =  require('body-parser')
-const cors = require('cors')
+
 
 // From files
 const { MONGODB } = require('./config');
 const taskRoutes = require('./routes/tasks');
 
-const app = express();
 app.use(bodyParser.json());
 
 // Task Routes
 app.use('/api/task',taskRoutes);
-app.use(cors())
 
 // Conect to te DB
 mongoose.connect(MONGODB, { useNewUrlParser: true, useUnifiedTopology: true })
