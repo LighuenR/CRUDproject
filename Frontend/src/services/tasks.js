@@ -26,3 +26,15 @@ export const createTask = (task) => {
       console.log(error);
     });
 };
+
+export const deleteTask = (task) => {
+  return ajax
+    .delete(apiURL + `/${task._id}`)
+    .then(res => {
+      console.log(res)
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};

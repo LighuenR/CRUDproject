@@ -26,11 +26,12 @@
         <v-col cols="6">
           <v-row>
             <v-col v-for="task in tasks" :key="task._id"
-              ><v-card> 
-                <v-card-title>{{task.title}}</v-card-title>
-                <v-card-text>{{task.description}}</v-card-text>
-                </v-card
-            ></v-col>
+              ><v-card>
+                <v-card-title>{{ task.title }}</v-card-title>
+                <v-card-text>{{ task.description }}</v-card-text>
+                <v-btn color="red" @click="deleteTask(task)">Eliminar</v-btn>
+              </v-card></v-col
+            >
           </v-row>
         </v-col>
       </v-container>
@@ -39,7 +40,7 @@
 </template>
 
 <script>
-import { getAllTasks, createTask } from "./services/tasks";
+import { getAllTasks, createTask, deleteTask } from "./services/tasks";
 
 export default {
   data() {
@@ -62,7 +63,13 @@ export default {
       console.log(res);
       this.getAllTasks();
     },
+
+    async deleteTask(task) {
+      deleteTask(task);
+      this.getAllTasks();
+    },
   },
+
   mounted() {
     this.getAllTasks();
   },
