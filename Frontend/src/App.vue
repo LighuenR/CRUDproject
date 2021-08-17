@@ -9,9 +9,9 @@
     <v-main>
       <v-container>
         <v-row>
-          <v-col cols="6">
+          <v-col cols="12" lg="6">
             <v-card>
-              <v-card-title>Tasks</v-card-title>
+              <v-card-title>Task</v-card-title>
               <v-card-text>
                 <v-text-field label="Title" v-model="taskTitle"></v-text-field>
                 <v-text-field
@@ -24,7 +24,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="3" v-for="task in tasks" :key="task._id"
+          <v-col cols="6" lg="3" v-for="task in tasks" :key="task._id"
             ><v-card>
               <v-card-title>{{ task.title }}</v-card-title>
               <v-card-text>{{ task.description }}</v-card-text>
