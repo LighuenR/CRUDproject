@@ -30,7 +30,7 @@
               <v-card-title>{{ task.title }}</v-card-title>
               <v-card-text>{{ task.description }}</v-card-text>
               <v-btn color="red" block @click="deleteTask(task)">Delete</v-btn>
-              <v-btn color="blue" block @click="editDialogf(task)" >Update</v-btn>
+              <v-btn color="blue" block @click="editDialogf(task)">Update</v-btn>
             </v-card>
           </v-col>
         </v-row>
@@ -88,13 +88,22 @@ export default {
       this.getAllTasks();
     },
 
-    async editTaks(task) {
-    await putTask();
-     this.getAllTasks();
+    async editTask() {
+     const res = await putTask({
+        title: this.editTitle,
+        description: this.editDescription,
+        _id: this.editId
+      });
+      if(res){
+        console.log("Entro sabroson")
+        this.getAllTasks();
+        this.editDialog = false;
+      }
+    else console.log("No se pudo editar")
     },
 
     editDialogf(task){
-    this.editDialog = true;
+     this.editDialog = true;
      this.editId = task._id;
      this.editTitle = task.title;
      this.editDescription = task.description;
