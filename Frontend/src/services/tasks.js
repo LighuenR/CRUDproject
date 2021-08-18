@@ -38,3 +38,15 @@ export const deleteTask = (task) => {
       console.log(error);
     });
 };
+
+export const putTask = (task) => {
+  return ajax
+    .put(apiURL + `/${task._id}`, task)
+    .then(res => {
+      console.log(res)
+      return res.data;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};

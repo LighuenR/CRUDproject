@@ -15,6 +15,7 @@
               <v-card-text>
                 <v-text-field label="Title" v-model="taskTitle"></v-text-field>
                 <v-text-field
+                  @keydown.enter="createTask()"
                   label="Description"
                   v-model="taskDescription"
                 ></v-text-field>
@@ -29,17 +30,30 @@
               <v-card-title>{{ task.title }}</v-card-title>
               <v-card-text>{{ task.description }}</v-card-text>
               <v-btn color="red" block @click="deleteTask(task)">Delete</v-btn>
-              <v-btn color="blue" block>Update</v-btn>
+              <v-btn color="blue" block @click="editDialogf(task)" >Update</v-btn>
             </v-card>
           </v-col>
         </v-row>
       </v-container>
     </v-main>
+    <v-dialog v-model="editDialog" max-width="500">
+      <v-card>
+        <v-card-title>Task id: {{editId}} </v-card-title>
+        <v-card-text>
+          <v-text-field label="Edit Title" v-model="editTitle"></v-text-field>
+          <v-text-field
+             v-model="editDescription" 
+            label="Edit description"
+          ></v-text-field>
+          <v-btn dark color="blue" block @click="editTask()">Update</v-btn>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
 <script>
-import { getAllTasks, createTask, deleteTask } from "./services/tasks";
+import { getAllTasks, createTask, deleteTask, putTask} from "./services/tasks";
 
 export default {
   data() {
@@ -47,7 +61,10 @@ export default {
       tasks: [],
       taskTitle: "",
       taskDescription: "",
-      edit: false,
+      editDialog: false,
+      editId: "",
+      editTitle: "",
+      editDescription: "",
     };
   },
   methods: {
@@ -67,13 +84,23 @@ export default {
     },
 
     async deleteTask(task) {
-      deleteTask(task);
+      await deleteTask(task);
       this.getAllTasks();
     },
-    /* 
-    async putTask(task) {
 
-    } */
+    async editTaks(task) {
+    await putTask();
+     this.getAllTasks();
+    },
+
+    editDialogf(task){
+    this.editDialog = true;
+     this.editId = task._id;
+     this.editTitle = task.title;
+     this.editDescription = task.description;
+    },
+    
+    
   },
 
   mounted() {
