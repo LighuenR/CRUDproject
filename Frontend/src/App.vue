@@ -9,28 +9,33 @@
     <v-main>
       <v-container>
         <v-row>
-          <v-col cols="12" lg="6">
+          <v-col cols="12" lg="4">
             <v-card>
               <v-card-title>Task</v-card-title>
               <v-card-text>
                 <v-text-field label="Title" v-model="taskTitle"></v-text-field>
-                <v-text-field
-                  @keydown.enter="createTask()"
+                <v-textarea
                   label="Description"
                   v-model="taskDescription"
-                ></v-text-field>
+                ></v-textarea>
                 <v-btn dark color="black" block @click="createTask()"
                   >Send</v-btn
                 >
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="6" lg="3" v-for="task in tasks" :key="task._id"
+          <v-col cols="12" lg="4" v-for="task in tasks" :key="task._id"
             ><v-card>
               <v-card-title>{{ task.title }}</v-card-title>
               <v-card-text>{{ task.description }}</v-card-text>
-              <v-btn color="red" block @click="deleteTask(task)">Delete</v-btn>
-              <v-btn color="blue" block @click="editDialogf(task)">Update</v-btn>
+              <v-divider class="mx-4"></v-divider>
+
+              <v-btn elevation="4" class="ma-4" small @click="deleteTask(task)"
+                >Delete</v-btn
+              >
+              <v-btn elevation="4" class="ma-4" small @click="editDialogf(task)"
+                >Update</v-btn
+              >
             </v-card>
           </v-col>
         </v-row>
@@ -38,11 +43,11 @@
     </v-main>
     <v-dialog v-model="editDialog" max-width="500">
       <v-card>
-        <v-card-title>Task id: {{editId}} </v-card-title>
+        <v-card-title>Task id: {{ editId }} </v-card-title>
         <v-card-text>
           <v-text-field label="Edit Title" v-model="editTitle"></v-text-field>
           <v-text-field
-             v-model="editDescription" 
+            v-model="editDescription"
             label="Edit description"
           ></v-text-field>
           <v-btn dark color="blue" block @click="editTask()">Update</v-btn>
@@ -53,7 +58,7 @@
 </template>
 
 <script>
-import { getAllTasks, createTask, deleteTask, putTask} from "./services/tasks";
+import { getAllTasks, createTask, deleteTask, putTask } from "./services/tasks";
 
 export default {
   data() {
@@ -89,27 +94,24 @@ export default {
     },
 
     async editTask() {
-     const res = await putTask({
+      const res = await putTask({
         title: this.editTitle,
         description: this.editDescription,
-        _id: this.editId
+        _id: this.editId,
       });
-      if(res){
-        console.log("Entro sabroson")
+      if (res) {
+        console.log("Entro sabroson");
         this.getAllTasks();
         this.editDialog = false;
-      }
-    else console.log("No se pudo editar")
+      } else console.log("No se pudo editar");
     },
 
-    editDialogf(task){
-     this.editDialog = true;
-     this.editId = task._id;
-     this.editTitle = task.title;
-     this.editDescription = task.description;
+    editDialogf(task) {
+      this.editDialog = true;
+      this.editId = task._id;
+      this.editTitle = task.title;
+      this.editDescription = task.description;
     },
-    
-    
   },
 
   mounted() {
