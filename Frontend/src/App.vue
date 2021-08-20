@@ -24,19 +24,40 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" lg="4" v-for="task in tasks" :key="task._id"
-            ><v-card>
-              <v-card-title>{{ task.title }}</v-card-title>
-              <v-card-text>{{ task.description }}</v-card-text>
-              <v-divider class="mx-4"></v-divider>
+          <v-col cols="12" lg="8">
+            <v-row>
+              
+              <v-col cols="12" lg="6" v-for="task in tasks" :key="task._id"
+                ><v-card  justify="space-around">
+                  <v-card-title>{{ task.title }}</v-card-title>
+                  <v-card-text>{{ task.description }}</v-card-text>
+                  <v-divider class="mx-4"></v-divider>
+                  <v-card-actions class="d-flex justify-end">
+                  <v-btn
+                    elevation="2"
+                    class="ma-2"
+                    justify="end"
+                    small
+                    right
+                    @click="editDialogf(task)"
+                    >Update</v-btn
+                  >
+                  
+                  <v-btn
+                 
+                   justify-end
+                    elevation="2"
+                    color="error"
+                     class="ma-2"
+                    small
+                    @click="deleteTask(task)"
+                    >Delete</v-btn
+                  >
+              </v-card-actions>
 
-              <v-btn elevation="4" class="ma-4" small @click="deleteTask(task)"
-                >Delete</v-btn
-              >
-              <v-btn elevation="4" class="ma-4" small @click="editDialogf(task)"
-                >Update</v-btn
-              >
-            </v-card>
+                </v-card>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-container>
